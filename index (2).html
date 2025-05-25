@@ -1,0 +1,340 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="I Trust Faiz offers expert diamond consultancy with over 20 years of experience. Find your perfect diamond with personalized guidance.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>I Trust Faiz | Find Your Perfect Diamond</title>
+  <style>
+    *,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content: ''}html{line-height:1.5;-webkit-text-size-adjust:100%;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;-webkit-text-decoration:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}[type=tel]{-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield}*,::after,::before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0}.mx-auto{margin-left:auto;margin-right:auto}.-mt-px{margin-top:-1px}.mb-1{margin-bottom:.25rem}.mb-10{margin-bottom:2.5rem}.mb-2{margin-bottom:.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mt-2{margin-top:.5rem}.mt-4{margin-top:1rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-24{height:6rem}.h-96{height:24rem}.h-full{height:100%}.h-screen{height:100vh}.max-w-2xl{max-width:42rem}.max-w-3xl{max-width:48rem}.max-w-5xl{max-width:64rem}.border{border-width:1px}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity))}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}.bg-blue-200{--tw-bg-opacity:1;background-color:rgb(191 219 254 / var(--tw-bg-opacity))}.bg-blue-800{--tw-bg-opacity:1;background-color:rgb(30 64 175 / var(--tw-bg-opacity))}.bg-blue-900{--tw-bg-opacity:1;background-color:rgb(23 37 84 / var(--tw-bg-opacity))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-gray-200{--tw-bg-opacity:1;background-color:rgb(229 231 235 / var(--tw-bg-opacity))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-yellow-400{--tw-bg-opacity:1;background-color:rgb(250 204 21 / var(--tw-bg-opacity))}.bg-yellow-500{--tw-bg-opacity:1;background-color:rgb(234 179 8 / var(--tw-bg-opacity))}.bg-opacity-70{background-color-opacity:.7}.bg-gradient-to-b{background-image:linear-gradient(to bottom,var(--tw-gradient-stops))}.bg-gradient-to-br{background-image:linear-gradient(to bottom right,var(--tw-gradient-stops))}.from-blue-700{--tw-gradient-from:#1d4ed8 var(--tw-gradient-from-position);--tw-gradient-to:rgba(29,78,216,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.from-blue-900{--tw-gradient-from:#1e3a8a var(--tw-gradient-from-position);--tw-gradient-to:rgba(30,58,138,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.from-white{--tw-gradient-from:#fff var(--tw-gradient-from-position);--tw-gradient-to:rgba(255,255,255,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.to-blue-700{--tw-gradient-to:#1d4ed8 var(--tw-gradient-to-position)}.to-gray-50{--tw-gradient-to:#f9fafb var(--tw-gradient-to-position)}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-12{padding-top:3rem;padding-bottom:3rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-20{padding-top:5rem;padding-bottom:5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.md\:px-12{padding-left:3rem;padding-right:3rem}.text-center{text-align:center}.text-left{text-align:left}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-5xl{font-size:3rem;line-height:1}.md\:text-6xl{font-size:3.75rem;line-height:1}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-tight{line-height:1.25}.text-blue-700{--tw-text-opacity:1;color:rgb(29 78 216 / var(--tw-text-opacity))}.text-blue-800{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity))}.text-blue-900{--tw-text-opacity:1;color:rgb(23 37 84 / var(--tw-text-opacity))}.text-gray-200{--tw-text-opacity:1;color:rgb(229 231 235 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.no-underline{-webkit-text-decoration-line:none;text-decoration-line:none}.shadow{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color),0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.transition{transition-property:color,background-color,border-color,-webkit-text-decoration-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-text-decoration-color,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.duration-200{transition-duration:.2s}.hover\:bg-blue-200:hover{--tw-bg-opacity:1;background-color:rgb(191 219 254 / var(--tw-bg-opacity))}.hover\:bg-blue-800:hover{--tw-bg-opacity:1;background-color:rgb(30 64 175 / var(--tw-bg-opacity))}.hover\:bg-yellow-400:hover{--tw-bg-opacity:1;background-color:rgb(250 204 21 / var(--tw-bg-opacity))}.hover\:text-yellow-400:hover{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(59 130 246 / var(--tw-ring-opacity))}@media (min-width:768px){.md\:block{display:block}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.md\:px-12{padding-left:3rem;padding-right:3rem}}.col-span-2{grid-column:span 2 / span 2}.md\:col-span-1{grid-column:span 1 / span 1}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-x-6>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));margin-left:calc(1.5rem * var(--tw-space-x-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.rounded{border-radius:.25rem}.rounded-lg{border-radius:.5rem}.rounded-xl{border-radius:.75rem}.text-base{font-size:1rem;line-height:1.5rem}.cursor-pointer{cursor:pointer}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.leading-none{line-height:1}.w-full{width:100%}.object-cover{-o-object-fit:cover;object-fit:cover}.top-0{top:0}.z-10{z-index:10}.z-20{z-index:20}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.sm\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.flex-col{flex-direction:column}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.nav-link{display:inline-block;padding:0.5rem 1rem;border-radius:0.25rem;text-align:center;min-width:80px}.nav-link:hover{background-color:rgba(250,204,21,0.1)}
+  </style>
+</head>
+<body class="bg-white text-blue-900">
+  <!-- Navigation -->
+  <nav class="bg-blue-900 text-white p-4 sticky top-0 z-20 shadow-md">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">I Trust Faiz</h1>
+      <ul class="flex space-x-6">
+        <li><a href="#home" class="nav-link hover:text-yellow-400 transition">Home</a></li>
+        <li><a href="#consult" class="nav-link hover:text-yellow-400 transition">Consult</a></li>
+        <li><a href="#estimator" class="nav-link hover:text-yellow-400 transition">Estimator</a></li>
+        <li><a href="#about-faiz" class="nav-link hover:text-yellow-400 transition">About</a></li>
+        <li><a href="#faq" class="nav-link hover:text-yellow-400 transition">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header id="home" class="relative h-screen bg-gradient-to-br from-blue-900 to-blue-700 text-white">
+    <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 md:px-12">
+      <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">Trust Faiz to Find Your Perfect Diamond</h1>
+      <ul class="text-xl md:text-2xl max-w-3xl mb-10 space-y-4 text-left">
+        <li class="flex items-start gap-3"><span class="text-yellow-400 text-2xl">◆</span> You’re not just buying a stone — you’re finding the one.</li>
+        <li class="flex items-start gap-3"><span class="text-yellow-400 text-2xl">◆</span> Backed by 20+ years of hands-on experience and GIA Graduate Gemologist certification.</li>
+        <li class="flex items-start gap-3"><span class="text-yellow-400 text-2xl">◆</span> Powered by a global sourcing network and personal guidance — from wish to wow.</li>
+      </ul>
+      <a href="#consult" class="bg-yellow-500 text-blue-900 text-lg px-8 py-4 rounded font-bold shadow hover:bg-yellow-400 transition duration-200" aria-label="Start your free diamond consultation">Start Your Free Consultation</a>
+    </div>
+  </header>
+
+  <!-- Consult Section -->
+  <section id="consult" class="py-20 px-6 bg-gradient-to-b from-white to-gray-50">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-blue-900 mb-6 leading-tight">Private Diamond Guidance with Faiz</h2>
+      <p class="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">Let your journey begin with discretion, trust, and two decades of diamond expertise. Fill in your details and contact us to find your perfect stone.</p>
+      <form id="consult-form" action="" class="grid gap-4 md:grid-cols-2">
+        <input
+          type="text"
+          name="fullName"
+          placeholder="Full Name"
+          class="col-span-2 md:col-span-1 border border-gray-300 rounded p-4 shadow-sm"
+          aria-required="true"
+          aria-label="Full Name"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          class="col-span-2 md:col-span-1 border border-gray-300 rounded p-4 shadow-sm"
+          aria-required="true"
+          aria-label="Email Address"
+        />
+        <input
+          type="tel"
+          name="whatsappNumber"
+          placeholder="WhatsApp Number"
+          class="col-span-2 border border-gray-300 rounded p-4 shadow-sm"
+          aria-required="true"
+          aria-label="WhatsApp Number"
+        />
+        <textarea
+          name="message"
+          rows="4"
+          placeholder="Tell me what you're looking for…"
+          class="col-span-2 border border-gray-300 rounded p-4 shadow-sm"
+          aria-label="Describe your diamond preferences"
+        ></textarea>
+        <div class="col-span-2 space-y-4">
+          <a
+            href="mailto:info@itrustfaiz.com?subject=Free%20Consultation%20Request&body=Hi%20Faiz,%20I'd%20like%20a%20free%20consultation.%20Please%20contact%20me%20with%20details%20from%20my%20form%20submission."
+            class="block bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold py-4 rounded shadow-md text-lg transition text-center"
+            aria-label="Request a consultation via email"
+          >Request Consultation via Email</a>
+          <a
+            href="https://wa.me/+971555562577?text=Hi%20Faiz,%20I'd%20like%20a%20free%20consultation.%20Please%20contact%20me%20with%20details%20from%20my%20form%20submission."
+            target="_blank"
+            class="block bg-blue-900 text-white font-bold py-4 rounded shadow-md text-lg transition hover:bg-blue-800 text-center"
+            aria-label="Request a consultation via WhatsApp"
+          >Request Consultation via WhatsApp</a>
+        </div>
+      </form>
+      <p class="mt-4 text-gray-700">If buttons don’t work, email <a href="mailto:info@itrustfaiz.com" class="underline text-blue-700">info@itrustfaiz.com</a> or message <a href="https://wa.me/+971555562577" class="underline text-blue-700" target="_blank">+971555562577</a> on WhatsApp with this message: <br><code class="text-sm text-gray-700">Hi Faiz, I'd like a free consultation. Name: [Your Name], Email: [Your Email], WhatsApp: [Your Number], Details: [Your Message]</code></p>
+    </div>
+  </section>
+
+  <!-- Diamond Estimator -->
+  <section id="estimator" class="py-12 px-4 bg-white">
+    <div class="max-w-2xl mx-auto bg-gray-100 border border-gray-200 rounded-xl p-6 shadow-lg">
+      <h2 class="text-xl font-bold mb-6 text-center text-blue-900">Tell Me What You Want — I’ll Find the Diamond</h2>
+      <form id="estimator-form" action="" class="space-y-4">
+        <div>
+          <label class="block font-medium text-blue-900 mb-2">Shape</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <input type="radio" id="shape-round" name="shape" value="Round" checked class="hidden peer/round" />
+            <label for="shape-round" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/round:bg-blue-900 peer-checked/round:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Round</label>
+            <input type="radio" id="shape-princess" name="shape" value="Princess" class="hidden peer/princess" />
+            <label for="shape-princess" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/princess:bg-blue-900 peer-checked/princess:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Princess</label>
+            <input type="radio" id="shape-cushion" name="shape" value="Cushion" class="hidden peer/cushion" />
+            <label for="shape-cushion" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/cushion:bg-blue-900 peer-checked/cushion:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Cushion</label>
+            <input type="radio" id="shape-oval" name="shape" value="Oval" class="hidden peer/oval" />
+            <label for="shape-oval" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/oval:bg-blue-900 peer-checked/oval:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Oval</label>
+            <input type="radio" id="shape-emerald" name="shape" value="Emerald" class="hidden peer/emerald" />
+            <label for="shape-emerald" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/emerald:bg-blue-900 peer-checked/emerald:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Emerald</label>
+            <input type="radio" id="shape-pear" name="shape" value="Pear" class="hidden peer/pear" />
+            <label for="shape-pear" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/pear:bg-blue-900 peer-checked/pear:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Pear</label>
+            <input type="radio" id="shape-asscher" name="shape" value="Asscher" class="hidden peer/asscher" />
+            <label for="shape-asscher" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/asscher:bg-blue-900 peer-checked/asscher:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Asscher</label>
+            <input type="radio" id="shape-heart" name="shape" value="Heart" class="hidden peer/heart" />
+            <label for="shape-heart" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/heart:bg-blue-900 peer-checked/heart:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Heart</label>
+            <input type="radio" id="shape-radiant" name="shape" value="Radiant" class="hidden peer/radiant" />
+            <label for="shape-radiant" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/radiant:bg-blue-900 peer-checked/radiant:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Radiant</label>
+            <input type="radio" id="shape-marquise" name="shape" value="Marquise" class="hidden peer/marquise" />
+            <label for="shape-marquise" class="border border-gray-300 p-2 rounded font-medium text-sm text-center cursor-pointer peer-checked/marquise:bg-blue-900 peer-checked/marquise:text-white bg-gray-200 text-blue-900 hover:bg-blue-200">Marquise</label>
+          </div>
+        </div>
+        <div>
+          <label class="block font-medium text-blue-900 mb-1" for="carat">Carat Weight</label>
+          <input
+            id="carat"
+            type="number"
+            name="carat"
+            step="0.01"
+            min="0.01"
+            value="1.00"
+            class="w-full border border-gray-300 rounded p-2 shadow-sm"
+            aria-required="true"
+            aria-label="Carat Weight"
+          />
+        </div>
+        <div>
+          <label class="block font-medium text-blue-900 mb-1" for="color">Color</label>
+          <select
+            id="color"
+            name="color"
+            class="w-full border border-gray-300 rounded p-2 shadow-sm"
+            aria-required="true"
+            aria-label="Color Grade"
+          >
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-medium text-blue-900 mb-1" for="clarity">Clarity</label>
+          <select
+            id="clarity"
+            name="clarity"
+            class="w-full border border-gray-300 rounded p-2 shadow-sm"
+            aria-required="true"
+            aria-label="Clarity Grade"
+          >
+            <option value="IF">IF</option>
+            <option value="VVS1">VVS1</option>
+            <option value="VVS2">VVS2</option>
+            <option value="VS1" selected>VS1</option>
+            <option value="VS2">VS2</option>
+            <option value="SI1">SI1</option>
+            <option value="SI2">SI2</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-medium text-blue-900 mb-1" for="cut">Cut Grade</label>
+          <select
+            id="cut"
+            name="cut"
+            class="w-full border border-gray-300 rounded p-2 shadow-sm"
+            aria-required="true"
+            aria-label="Cut Grade"
+          >
+            <option value="Excellent" selected>Excellent</option>
+            <option value="Very Good">Very Good</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+          </select>
+        </div>
+        <div class="space-y-4">
+          <a
+            href="mailto:info@itrustfaiz.com?subject=Diamond%20Consultation%20Request&body=Hi%20Faiz,%20I'm%20interested%20in%20a%20diamond%20with%20these%20specifications:%20Shape:%20[Your%20Shape],%20Carat:%20[Your%20Carat]ct,%20Color:%20[Your%20Color],%20Clarity:%20[Your%20Clarity],%20Cut:%20[Your%20Cut].%20Please%20provide%20a%20free%20consultation."
+            class="block bg-blue-900 text-white w-full p-3 rounded font-semibold hover:bg-blue-800 transition text-center"
+            aria-label="Contact I Trust Faiz via email with diamond preferences"
+          >Contact I Trust Faiz via Email</a>
+          <a
+            href="https://wa.me/+971555562577?text=Hi%20Faiz,%20I'm%20interested%20in%20a%20diamond%20with%20these%20specifications:%20Shape:%20[Your%20Shape],%20Carat:%20[Your%20Carat]ct,%20Color:%20[Your%20Color],%20Clarity:%20[Your%20Clarity],%20Cut:%20[Your%20Cut].%20Please%20provide%20a%20free%20consultation."
+            target="_blank"
+            class="block bg-yellow-500 text-blue-900 w-full p-3 rounded font-semibold hover:bg-yellow-400 transition text-center"
+            aria-label="Contact I Trust Faiz via WhatsApp with diamond preferences"
+          >Contact I Trust Faiz via WhatsApp</a>
+        </div>
+      </form>
+      <p class="mt-4 text-gray-700">If buttons don’t work, email <a href="mailto:info@itrustfaiz.com" class="underline text-blue-700">info@itrustfaiz.com</a> or message <a href="https://wa.me/+971555562577" class="underline text-blue-700" target="_blank">+971555562577</a> on WhatsApp with this message: <br><code class="text-sm text-gray-700">Hi Faiz, I'm interested in a diamond with these specifications: Shape: [Your Shape], Carat: [Your Carat]ct, Color: [Your Color], Clarity: [Your Clarity], Cut: [Your Cut]. Please provide a free consultation.</code></p>
+    </div>
+  </section>
+
+  <!-- About Faiz -->
+  <section id="about-faiz" class="bg-white py-16 px-4">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h2 class="text-3xl font-bold text-blue-900 mb-4">About Faiz</h2>
+        <p class="text-lg font-semibold text-gray-800 mb-4">Two decades. Thousands of stones. One mission: yours.</p>
+        <p class="text-gray-700 mb-4">I'm Faiz Fikak — a GIA Graduate Gemologist, trusted advisor, and the name behind I Trust Faiz. For over 20 years, I’ve helped clients find the diamond that’s right for them — not just by size or certification, but by meaning.</p>
+        <p class="text-gray-700 mb-4">Whether you’re sourcing a rare investment stone, designing a bespoke engagement ring, or simply need guidance navigating the diamond world — I offer one-on-one private consultancy built on deep market knowledge, global sourcing networks, and complete discretion.</p>
+        <p class="text-gray-700 mb-6">This isn’t retail. It’s personal.<br />I don’t sell you what I have. I find what you need.</p>
+        <a href="#consult" class="inline-block bg-yellow-500 text-blue-900 font-bold px-6 py-3 rounded hover:bg-yellow-400 transition" aria-label="Start your free diamond consultation">Start Your Free Consultation</a>
+      </div>
+      <div class="hidden md:block">
+        <div class="bg-gray-200 h-96 rounded-lg flex items-center justify-center">
+          <p class="text-gray-500">Image of Faiz or Diamond (Placeholder)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-16 px-4 bg-gray-50">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center text-blue-900">Top Questions and Answers About Diamonds</h2>
+      <p class="text-center text-lg mb-10 text-blue-700">Welcome to the I Trust Faiz FAQ, featuring clear and honest answers to help you make the best diamond decision possible.</p>
+      <div class="space-y-4">
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">What are the 4Cs of diamonds?</summary>
+          <p class="mt-2 text-sm text-gray-700">The 4Cs—Cut, Color, Clarity, and Carat—are the core measures used to evaluate a diamond. At I Trust Faiz, we help you understand each in plain terms so you can make a confident choice that fits your budget and your occasion.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">What are lab-grown diamonds?</summary>
+          <p class="mt-2 text-sm text-gray-700">Lab-grown diamonds are real diamonds created in high-tech labs. They share the same structure as natural diamonds but are made in weeks, not millions of years. At I Trust Faiz, we focus exclusively on natural diamonds for their rarity and value.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">What does conflict-free mean?</summary>
+          <p class="mt-2 text-sm text-gray-700">All I Trust Faiz diamonds are sourced ethically, with zero ties to conflict regions. We ensure every diamond is certified conflict-free through international standards like the Kimberley Process.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">How many diamond shapes are there?</summary>
+          <p class="mt-2 text-sm text-gray-700">There are many shapes, including Round, Oval, and more. Each has its own personality—choose the one that speaks to you.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">What is a loose diamond?</summary>
+          <p class="mt-2 text-sm text-gray-700">A loose diamond is not yet set in jewelry. At I Trust Faiz, you can select your perfect diamond and then choose or custom-design the setting it belongs in.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">Where should I buy a diamond?</summary>
+          <p class="mt-2 text-sm text-gray-700">From a trusted expert. At I Trust Faiz, you get GIA-certified stones, transparent advice, and one-on-one service—every time.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">Which diamond shapes are most popular?</summary>
+          <p class="mt-2 text-sm text-gray-700">Round is always classic. But today, ovals and cushions are also leading the way. We help you pick the best one for your look and lifestyle.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">What is a certified diamond?</summary>
+          <p class="mt-2 text-sm text-gray-700">Certified diamonds are graded by independent labs like GIA. Every diamond we offer at I Trust Faiz comes with documentation to prove its quality and characteristics.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">How do I buy a loose diamond?</summary>
+          <p class="mt-2 text-sm text-gray-700">It’s simple. Contact us, tell us what matters to you, and we’ll curate the perfect diamond for your needs—plus walk you through every step personally.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">Are diamonds durable?</summary>
+          <p class="mt-2 text-sm text-gray-700">Diamonds are the hardest natural material on Earth—ideal for everyday wear, especially in engagement rings.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">What jewelry looks best with diamonds?</summary>
+          <p class="mt-2 text-sm text-gray-700">Anything! From classic solitaires to tennis bracelets and custom necklaces, diamonds elevate every piece they touch.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">How are diamonds set in jewelry?</summary>
+          <p class="mt-2 text-sm text-gray-700">Most rings use prong or or bezel settings that hold the diamond securely while showcasing its brilliance. We help match settings to stone with care.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">How can I tell if a diamond is real?</summary>
+<p class="mt-2 text-sm text-gray-700">Real diamonds disperse heat quickly, resist scratching, and sparkle uniquely. Or skip the guesswork—buy from I Trust Faiz, and rest assured every stone is authentic and certified.</p>
+        </details>
+        <details class="bg-white p-4 rounded shadow">
+          <summary class="font-semibold cursor-pointer">Is it safe to buy diamonds online?</summary>
+          <p class="mt-2 text-sm text-gray-700">Yes—if you buy from a trusted source. At I Trust Faiz, every diamond is handpicked and comes with full certification, expert support, and complete transparency.</p>
+        </details>
+      </div>
+    </div>
+    <div class="h-24"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 bg-blue-900 text-white">
+    <p>© 2025 I Trust Faiz. All rights reserved. Based in Dubai, Trusted Worldwide.</p>
+  </footer>
+</body>
+</html>
